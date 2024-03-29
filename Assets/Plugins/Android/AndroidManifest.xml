@@ -1,31 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.unity3d.player"
-    xmlns:tools="http://schemas.android.com/tools">
-    <queries>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.unity3d.player" xmlns:tools="http://schemas.android.com/tools">
+	<queries>
 		<package android:name="com.digilens.digios_voiceui_service" />
 	</queries>
-	
-    <application>
-        <activity android:name="com.unity3d.player.UnityPlayerActivity"
-                  android:theme="@style/UnityThemeSelector"
-			      android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
-        </activity>
-
-		<service
-            android:name="com.digilens.digios_voiceui_service.VoiceUI_Service"
-            android:enabled="true"
-            android:exported="true">
+	<application>
+		<activity android:name="com.unity3d.player.UnityPlayerActivity" android:theme="@style/UnityThemeSelector" android:exported="true">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+			<meta-data android:name="unityplayer.UnityActivity" android:value="true" />
+		</activity>
+		<service android:name="com.digilens.digios_voiceui_service.VoiceUI_Service" android:enabled="true" android:exported="true">
 		</service>
-
-		<meta-data
-            android:name="com.digilens.android.BUILT_FOR_GLASSES"
-            android:value="true" />
-    </application>
+		<meta-data android:name="com.digilens.android.BUILT_FOR_GLASSES" android:value="true" />
+	</application>
 </manifest>
