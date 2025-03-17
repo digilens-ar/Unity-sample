@@ -6,33 +6,31 @@ using TMPro;
 
 public class DigiOSVoiceUIInterface : MonoBehaviour
 {
-
+    //Interface variables
     AndroidJavaObject voiceUI_Interface = null;
     AndroidJavaClass voiceUI_Interface_Constants = null;
 
-    AndroidJavaObject voiceUI_Model_EN = null;
-    AndroidJavaObject voiceUI_Listener_expand_EN = null;
-    AndroidJavaObject voiceUI_Listener_shrink_EN = null;
-    AndroidJavaObject voiceUI_Listener_hello_EN = null;
+    //Voice UI language models
+    AndroidJavaObject voiceUI_Model = null;
 
-    AndroidJavaObject voiceUI_Model_ES = null;
-    AndroidJavaObject voiceUI_Listener_expandir_ES = null;
-    AndroidJavaObject voiceUI_Listener_encoger_ES = null;
-    AndroidJavaObject voiceUI_Listener_hola_ES = null;
+    //Voice UI listeners
+    AndroidJavaObject voiceUI_Listener_expand = null;
+    AndroidJavaObject voiceUI_Listener_shrink = null;
 
     //Voice Commands
-    string command1EN = "expand";
-    string command2EN = "shrink";
-    string command3EN = "hello";
-    string command4ES = "expandir";
-    string command5ES = "encoger";
-    string command6ES = "hola";
+    string command1 = "expand";
+    string command2 = "shrink";
 
-    //Add script whos functions will be referenced
+    //Script whos functions will be referenced
     [Tooltip("Reference script")]
     public SphereController sphereController;
 
+    //Text object
+    public TMPro.TMP_Text text;
 
+    /// <summary>
+    /// Starting the voice UI service
+    /// </summary>
     void Awake()
     {
 
@@ -78,32 +76,24 @@ public class DigiOSVoiceUIInterface : MonoBehaviour
             Debug.LogError(e.Message);
             return false;
         }
+
         return true;
     }
 
     /// <summary>
-    /// Setup the language models and corresponding voice commands.
-    ///
-    ///  Supported languages :
-    ///  1. US-ENGLISH - "en"
-    ///  2. MEX-SPANISH - "es"
-    ///
-    /// Note:
-    /// 1. You can only add one voice model for a given language in the VoiceUI_Interface.Adding a new VoiceUI_Model
-    ///    to the VoiceUI_Interface for the same language will replace the previous added voice model for that LANGUAGE_CODE.
+    /// Setup the language models and register the voice commands.
     /// </summary>
     void ConfigureVoiceUI()
     {
         //create the models
-        voiceUI_Model_EN = new AndroidJavaObject("com.digilens.digios_unity_plugin.utils.VoiceUI_Model", "en");
-        voiceUI_Model_ES = new AndroidJavaObject("com.digilens.digios_unity_plugin.utils.VoiceUI_Model", "es");
+        voiceUI_Model = new AndroidJavaObject("com.digilens.digios_unity_plugin.utils.VoiceUI_Model", "en");
 
         //create and register voice command listeners
         RegisterVoiceCommands();
 
         //Adding the VoiceUI Models to the VoiceUI_Interface
-        voiceUI_Interface.Call("add_model", voiceUI_Model_EN);
-        voiceUI_Interface.Call("add_model", voiceUI_Model_ES);
+        voiceUI_Interface.Call("add_model", voiceUI_Model);
+
     }
 
     /// <summary>
@@ -113,41 +103,35 @@ public class DigiOSVoiceUIInterface : MonoBehaviour
     ///     1. Voice_Command_CONFIG_TYPE_FEEDBACK_ONLY - Used for regular voice commands
     ///     2. Voice_Command_CONFIG_TYPE_FEEDBACK_WITH_NUMBER_ONLY - Used for voice commands with variable number input
     ///
-    /// Listener format: ("com.digilens.digios_unity_plugin.utils.VoiceUI_Listener", VOICECOMMAND, voiceUIconstants, NAME_OF_GAMEOBJECT, CALLBACKFUNCTION)
-    /// **To modify listeners, add your custom voice command and specify which callback funtion should be called. If script is attached to a new
-    /// gameobject, specify name of the gameobject. By default, the script uses the prefab name.
+    /// Listener format: ("com.digilens.digios_unity_plugin.utils.VoiceUI_Listener", VOICECOMMAND, voiceUIconstants,
+    /// NAME_OF_GAMEOBJECT, CALLBACKFUNCTION)
+    /// **To modify listeners, add your custom voice command and specify which callback funtion should be called.
+    /// If script is attached to a new gameobject, specify name of the gameobject. By default, the script uses the
+    /// prefab name.
     ///
     /// Note:
     ///     1. Maximum character limit on voice command : 32
     ///     2. For voice commands with number input, the voice UI only accepts number input between 0 to 100.
-    ///     3. The voiceUI service can only accept limited unique voice commands throughout the system.If there's no available slots for the new commands, the voiceUI_interface will fail to your voice commands and throws exception with message "Unable to register voice command".
+    ///     3. The voiceUI service can only accept limited unique voice commands throughout the system.If there's
+    ///         no available slots for the new commands, the voiceUI_interface will fail to your voice commands and
+    ///         throws exception with message "Unable to register voice command".
     /// </summary>
     void RegisterVoiceCommands()
     {
-        //Creating english voice UI listeners
-        voiceUI_Listener_expand_EN = new AndroidJavaObject("com.digilens.digios_unity_plugin.utils.VoiceUI_Listener",
-            command1EN, voiceUI_Interface_Constants.GetStatic<int>("Voice_Command_CONFIG_TYPE_FEEDBACK_ONLY"), "VoiceUI_Handler", "VoiceUI_Callback1");
-        voiceUI_Listener_shrink_EN = new AndroidJavaObject("com.digilens.digios_unity_plugin.utils.VoiceUI_Listener",
-            command2EN, voiceUI_Interface_Constants.GetStatic<int>("Voice_Command_CONFIG_TYPE_FEEDBACK_ONLY"), "VoiceUI_Handler", "VoiceUI_Callback2");
-        voiceUI_Listener_hello_EN = new AndroidJavaObject("com.digilens.digios_unity_plugin.utils.VoiceUI_Listener",
-           command3EN, voiceUI_Interface_Constants.GetStatic<int>("Voice_Command_CONFIG_TYPE_FEEDBACK_ONLY"), "VoiceUI_Handler", "VoiceUI_Callback3");
-
-        //creating spanish voice UI listeners
-        voiceUI_Listener_expandir_ES = new AndroidJavaObject("com.digilens.digios_unity_plugin.utils.VoiceUI_Listener",
-            command4ES, voiceUI_Interface_Constants.GetStatic<int>("Voice_Command_CONFIG_TYPE_FEEDBACK_ONLY"), "VoiceUI_Handler", "VoiceUI_Callback1");
-        voiceUI_Listener_encoger_ES = new AndroidJavaObject("com.digilens.digios_unity_plugin.utils.VoiceUI_Listener",
-            command5ES, voiceUI_Interface_Constants.GetStatic<int>("Voice_Command_CONFIG_TYPE_FEEDBACK_ONLY"), "VoiceUI_Handler", "VoiceUI_Callback2");
-        voiceUI_Listener_hola_ES = new AndroidJavaObject("com.digilens.digios_unity_plugin.utils.VoiceUI_Listener",
-            command6ES, voiceUI_Interface_Constants.GetStatic<int>("Voice_Command_CONFIG_TYPE_FEEDBACK_ONLY"), "VoiceUI_Handler", "VoiceUI_Callback3");
+        //Creating voice UI listeners
+        voiceUI_Listener_expand = new AndroidJavaObject("com.digilens.digios_unity_plugin.utils.VoiceUI_Listener",
+            command1, voiceUI_Interface_Constants.GetStatic<int>("Voice_Command_CONFIG_TYPE_FEEDBACK_ONLY"),
+            gameObject.name, "VoiceUI_Callback1");
+        voiceUI_Listener_shrink = new AndroidJavaObject("com.digilens.digios_unity_plugin.utils.VoiceUI_Listener",
+            command2, voiceUI_Interface_Constants.GetStatic<int>("Voice_Command_CONFIG_TYPE_FEEDBACK_ONLY"),
+            gameObject.name, "VoiceUI_Callback2");
 
 
         //Adding listeners to the appropriate language VoiceUI_Model. 
-        voiceUI_Model_EN.Call("addVoiceUI_Listener", voiceUI_Listener_expand_EN);
-        voiceUI_Model_EN.Call("addVoiceUI_Listener", voiceUI_Listener_shrink_EN);
-        voiceUI_Model_EN.Call("addVoiceUI_Listener", voiceUI_Listener_hello_EN);
-        voiceUI_Model_ES.Call("addVoiceUI_Listener", voiceUI_Listener_expandir_ES);
-        voiceUI_Model_ES.Call("addVoiceUI_Listener", voiceUI_Listener_encoger_ES);
-        voiceUI_Model_ES.Call("addVoiceUI_Listener", voiceUI_Listener_hola_ES);
+        voiceUI_Model.Call("addVoiceUI_Listener", voiceUI_Listener_expand);
+        voiceUI_Model.Call("addVoiceUI_Listener", voiceUI_Listener_shrink);
+
+
     }
 
     /// <summary>
@@ -160,18 +144,17 @@ public class DigiOSVoiceUIInterface : MonoBehaviour
             voiceUI_Interface.Call("stop");
 
             //Disposing of the AndroidJavaObjects
-            voiceUI_Listener_expand_EN.Dispose();
-            voiceUI_Listener_shrink_EN.Dispose();
-            voiceUI_Listener_hello_EN.Dispose();
-            voiceUI_Listener_expandir_ES.Dispose();
-            voiceUI_Listener_encoger_ES.Dispose();
-            voiceUI_Listener_hola_ES.Dispose();
-            voiceUI_Model_ES.Dispose();
-            voiceUI_Model_EN.Dispose();
+            voiceUI_Listener_expand.Dispose();
+            voiceUI_Listener_shrink.Dispose();
+
+            //Disposing of all other elements
+            voiceUI_Model.Dispose();
             voiceUI_Interface_Constants.Dispose();
             voiceUI_Interface.Dispose();
+
             return true;
         }
+
         return false;
     }
 
@@ -189,9 +172,10 @@ public class DigiOSVoiceUIInterface : MonoBehaviour
     /// </summary>
     public void VoiceUI_Callback1(string voice_command)
     {
+        //TODO: Call functions here
         Debug.Log(voice_command);
 
-        //TODO: Call functions here
+        text.text = voice_command;
         sphereController.Grow();
 
     }
@@ -201,22 +185,13 @@ public class DigiOSVoiceUIInterface : MonoBehaviour
     /// </summary>
     public void VoiceUI_Callback2(string voice_command)
     {
+        //TODO: Call functions here
+
         Debug.Log(voice_command);
 
-        //TODO: Call functions here
+        text.text = voice_command;
         sphereController.Shrink();
 
     }
 
-    /// <summary>
-    /// Callback funtion corresponding to the third voice command 
-    /// </summary>
-    public void VoiceUI_Callback3(string voice_command)
-    {
-        Debug.Log(voice_command);
-
-        //TODO: Call functions here
-        sphereController.Speak();
-
-    }
 }
