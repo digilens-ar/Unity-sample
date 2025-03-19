@@ -14,5 +14,8 @@
 		<service android:name="com.digilens.digios_voiceui_service.VoiceUI_Service" android:enabled="true" android:exported="true">
 		</service>
 		<meta-data android:name="com.digilens.android.BUILT_FOR_GLASSES" android:value="true" />
+		<!-- Comment out the following if not building AR applications -->
+		<meta-data android:name="com.digilens.dynamic_display" android:value="s3d" />
+		<meta-data android:name="com.digilens.dynamic_display_fsd" android:value="rgb" />
 	</application>
 </manifest>

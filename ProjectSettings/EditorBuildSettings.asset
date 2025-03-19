@@ -6,9 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/DigiLens/Scenes/VoiceUI.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
+    path: Assets/DigiLens/Scenes/DigiOS_VoiceUISample.unity
+    guid: 043a232aaceb2456ba591075378e6540
   - enabled: 0
-    path: Assets/DigiLens/Scenes/Scroll Input.unity
-    guid: c552dcd92b09b4912919a0d2d07aa37a
+    path: Assets/DigiLens/Scenes/DigiOS_ScrollSample.unity
+    guid: b7aff37c4478f4cd6ab204b8ee25e96d
   m_configObjects: {}

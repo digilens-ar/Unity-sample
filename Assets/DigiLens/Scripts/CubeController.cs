@@ -22,14 +22,17 @@ public class CubeController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Return)) //if scroll wheel is pressed, change cube material
         {
+            Debug.Log("Scroll wheel press key detected");
             ChangeColor();
         }
         if (Input.GetKeyDown(KeyCode.RightArrow))//if scroll wheel is scrolled forward, rotate cube forward
         {
+            Debug.Log("Forward scroll key detected");
             RotateCube(Vector3.forward);
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow))//if scroll wheel is scrolled backwards, rotate cube backwards
         {
+            Debug.Log("Backward scroll key detected");
             RotateCube(Vector3.back);
         }
     }
@@ -40,7 +43,7 @@ public class CubeController : MonoBehaviour
     /// <param name="direction"></param>
     void RotateCube(Vector3 direction)
     {
-        transform.Rotate(direction, Space.Self);
+        transform.Rotate(direction * 10, Space.Self);
     }
 
     /// <summary>
