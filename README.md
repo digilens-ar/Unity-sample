@@ -1,9 +1,8 @@
-# DigiLens Inc. Sample Project
+# DigiLens Inc. Interactions Sample Project
 
-To get started, navigate to our developer site: [Getting Started with Unity for ARGO](https://developer.digilens.com/hc/en-us/articles/20469922225435--Getting-Started-with-Unity-for-ARGO)
+To get started, navigate to our developer site: [DigiOS Interactions Guide](https://developer.digilens.com/hc/en-us/articles/32357557307931-DigiOS-Interactions-Guide)
 
-The webpage provides a detailed description of the steps required to build
-Unity applications for ARGO devices.
+This page outlines the different interactions available on ARGO.
 
 ## Overview: 
 
@@ -54,7 +53,7 @@ may vary based your project requirements.
 
 Unity Documentation: [Input Manager](https://docs.unity3d.com/Manual/class-InputManager.html)
 
-Voice UI Documentation: [DigiOS VoiceUI Overview](https://developer.digilens.com/hc/en-us/articles/19931447980827-DigiOS-VoiceUI)
+Voice UI Documentation: [Unity VoiceUI API](https://developer.digilens.com/hc/en-us/articles/34511958462875-Unity-VoiceUI-API)
 
 ## Troubleshooting
 
